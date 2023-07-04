@@ -13,15 +13,14 @@ def perform_number_tasks():
     global counter
     while number_list:
         with lock:
-            task = number_list.pop(0)
-        counter += task
+            number_list.pop(0)
+        counter += 1
         time.sleep(0.01)  # simulate processing time
 
 # Function to perform string tasks
 def perform_string_tasks():
     while string_list:
-        with lock:
-            task = string_list.pop(0)
+        string_list.pop(0)
         process()
 
 def process():
@@ -32,7 +31,7 @@ def process():
 # Function to monitor tasks
 def monitor_tasks():
     try:
-        while number_list or string_list or any(t.is_alive() for t in threads):
+        while number_list and string_list and any(t.is_alive() for t in threads):
             print(f"Current counter: {counter}")
             time.sleep(1)
     except KeyboardInterrupt:
